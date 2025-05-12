@@ -1,0 +1,52 @@
+<div class="product-list-container">
+  <h2 class="section-title">Ürün Listesi</h2>
+
+  <!-- 🟢 Filtre Barı (Kategori + Mağaza) -->
+  <div class="filter-bar">
+    <label for="categorySelect">Kategori:</label>
+    <select
+      id="categorySelect"
+      [(ngModel)]="selectedCategoryId"
+      (change)="filterByCategory()"
+      class="category-select"
+    >
+      <option value="">Tüm Kategoriler</option>
+      <option *ngFor="let cat of categories" [ngValue]="cat.id">
+        {{ cat.name }}
+      </option>
+    </select>
+
+    <!-- 🟣 Mağaza Dropdown -->
+    <label for="sellerSelect">Mağaza:</label>
+    <select
+      id="sellerSelect"
+      [(ngModel)]="selectedSellerId"
+      (change)="filterBySeller()"
+      class="category-select"
+    >
+      <option [ngValue]="null">Tüm Mağazalar</option>
+      <option *ngFor="let seller of sellers" [ngValue]="seller.id">
+        {{ seller.storeName }}
+      </option>
+    </select>
+  </div>
+
+  <!-- 🟦 Ürün Kartları -->
+  <div class="product-grid">
+    <div *ngFor="let product of filteredProducts" class="product-card">
+      <h3>{{ product.name }}</h3>
+      <p class="desc">{{ product.description }}</p>
+      <p class="price">{{ product.price | currency:'TRY' }}</p>
+
+      <div class="card-actions">
+        <button class="btn-detail" (click)="goToDetail(product.id)">Detay</button>
+        <button class="btn-cart" (click)="addToCart(product)">Sepete Ekle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔴 Boş Durum -->
+  <div class="empty-state" *ngIf="!filteredProducts.length && !isLoading">
+    Bu kategoriye ait ürün bulunamadı.
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="profile-container" *ngIf="user">
+  <h2 class="profile-title">Satıcı Profilim</h2>
+
+  <div class="profile-field">
+    <label class="profile-label">Kullanıcı Adı:</label>
+    <div class="profile-value">{{ user.username }}</div>
+  </div>
+
+  <div class="profile-field">
+    <label class="profile-label">E-posta:</label>
+    <div class="profile-value">{{ user.email }}</div>
+  </div>
+
+  <div class="profile-field">
+    <label class="profile-label">Mağaza İsmi:</label>
+    <ng-container *ngIf="editMode; else displayStoreName">
+      <input [(ngModel)]="user.storeName" class="profile-input" placeholder="Mağaza ismi girin" />
+    </ng-container>
+    <ng-template #displayStoreName>
+      <div class="profile-value">{{ user.storeName || 'Belirtilmemiş' }}</div>
+    </ng-template>
+  </div>
+
+  <div class="profile-field">
+    <label class="profile-label">Rol:</label>
+    <div class="profile-value">{{ user.role }}</div>
+  </div>
+
+  <div class="profile-field">
+    <label class="profile-label">Kayıt Tarihi:</label>
+    <div class="profile-value">{{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}</div>
+  </div>
+
+  <div class="action-buttons">
+    <button *ngIf="!editMode" class="btn-edit" (click)="enableEdit()">Düzenle</button>
+    <button *ngIf="editMode" class="btn-save" (click)="saveChanges()">Kaydet</button>
+  </div>
+</div>

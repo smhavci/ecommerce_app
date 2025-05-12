@@ -1,0 +1,19 @@
+<div class="checkout-container">
+  <h2>Sipariş Formu</h2>
+
+  <form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()">
+    <label>Ad Soyad</label>
+    <input formControlName="fullName" type="text" />
+
+    <label>Adres</label>
+    <textarea formControlName="address"></textarea>
+
+    <label>Telefon</label>
+    <input formControlName="phone" type="text" />
+
+    <hr />
+    <p><strong>Toplam: {{ totalPrice | currency:'TRY' }}</strong></p>
+
+    <button type="submit" [disabled]="checkoutForm.invalid">Siparişi Onayla</button>
+  </form>
+</div>

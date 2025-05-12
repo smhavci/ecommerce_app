@@ -1,0 +1,17 @@
+.alert-box {
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px auto;
+  text-align: center;
+  font-weight: bold;
+  width: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}

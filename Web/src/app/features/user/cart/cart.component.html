@@ -1,0 +1,30 @@
+<div class="cart-container">
+  <h2>Sepetim</h2>
+
+  <div *ngIf="cartItems.length > 0; else emptyCart">
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <div class="info">
+        <h3>{{ item.product.name }}</h3>
+        <p>{{ item.product.description }}</p>
+        <p class="price">{{ item.product.price | currency: 'TRY' }}</p>
+      </div>
+
+      <div class="actions">
+        <button (click)="decrement(item)">-</button>
+        <span>{{ item.quantity }}</span>
+        <button (click)="increment(item)">+</button>
+        <button class="remove-btn" (click)="removeItem(item.product.id)">🗑</button>
+      </div>
+    </div>
+
+    <hr />
+    <p class="total">Toplam: {{ totalPrice | currency:'TRY' }}</p>
+
+    <button class="clear-btn" (click)="clearCart()">Sepeti Temizle</button>
+    <button class="checkout-btn" (click)="goToCheckout()">Siparişi Tamamla</button>
+  </div>
+
+  <ng-template #emptyCart>
+    <p>Sepetinizde ürün yok.</p>
+  </ng-template>
+</div>

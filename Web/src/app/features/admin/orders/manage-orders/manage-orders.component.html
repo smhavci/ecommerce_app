@@ -1,0 +1,83 @@
+<div class="admin-container">
+  <h2 class="page-title">Sipariş Yönetimi</h2>
+
+  <!-- Filtreleme -->
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Kullanıcı adına göre filtrele..."
+    [(ngModel)]="searchUsername"
+    (input)="applyFilter()" />
+
+  <!-- Yükleniyor durumu -->
+  <div *ngIf="isLoading" class="loading">Yükleniyor...</div>
+
+  <!-- Hata mesajı -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Sipariş Tablosu -->
+  <table *ngIf="!isLoading && filteredOrders.length" class="order-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Kullanıcı</th>
+        <th>Tarih</th>
+        <th>Toplam</th>
+        <th>Durum</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of filteredOrders">
+        <td>{{ order.id }}</td>
+        <td>{{ order.user.username }}</td>
+        <td>{{ order.orderDate | date: 'short' }}</td>
+        <td>{{ order.totalAmount | currency:'TRY' }}</td>
+        <td>
+          <select [value]="order.status" (change)="updateStatus(order, $event)">
+            <option value="PENDING">PENDING</option>
+            <option value="SHIPPED">SHIPPED</option>
+            <option value="DELIVERED">DELIVERED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+        </td>
+        <td>
+          <button class="detail-btn" (click)="selectOrder(order)">Detaylar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Boş Durum -->
+  <div *ngIf="!isLoading && !filteredOrders.length" class="empty-state">
+    Sipariş bulunamadı.
+  </div>
+
+  <!-- Sipariş Detayları Modali -->
+  <div class="modal-backdrop" *ngIf="selectedOrder">
+    <div class="modal-box">
+      <h3>Sipariş #{{ selectedOrder.id }} Detayları</h3>
+      <p><strong>Tarih:</strong> {{ selectedOrder.orderDate | date:'short' }}</p>
+      <p><strong>Toplam:</strong> {{ selectedOrder.totalAmount | currency:'TRY' }}</p>
+
+      <table class="modal-table">
+        <thead>
+          <tr>
+            <th>Ürün</th>
+            <th>Adet</th>
+            <th>Fiyat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of selectedOrder.items">
+            <td>{{ item.productName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price | currency:'TRY' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="close-btn" (click)="closeModal()">Kapat</button>
+    </div>
+  </div>
+</div>

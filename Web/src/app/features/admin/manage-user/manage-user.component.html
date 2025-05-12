@@ -1,0 +1,42 @@
+<div class="admin-container">
+  <h2 class="page-title">Kullanıcı Yönetimi</h2>
+
+  <!-- Yükleniyor durumu -->
+  <div *ngIf="isLoading" class="loading">Yükleniyor...</div>
+
+  <!-- Hata mesajı -->
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Kullanıcı Tablosu -->
+  <table *ngIf="!isLoading && users.length" class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Kullanıcı Adı</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button class="btn-role" [ngClass]="{ 'user-role': user.role === 'ROLE_ADMIN' }"
+                  (click)="changeUserRole(user.id, user.role)">
+            {{ user.role === 'ROLE_ADMIN' ? 'Kullanıcı Yap' : 'Admin Yap' }}
+          </button>
+          <button class="btn-delete" (click)="deleteUser(user.id)">Sil</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Kullanıcı yoksa -->
+  <div *ngIf="!isLoading && !users.length" class="empty-state">
+    Kayıtlı kullanıcı bulunamadı.
+  </div>
+</div>

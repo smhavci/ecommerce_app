@@ -1,0 +1,40 @@
+<nav>
+  <a routerLink="/" class="logo">SemihStore</a>
+
+  <div *ngIf="isLoggedIn; else guestLinks">
+
+    <!-- Admin kullanıcıya özel -->
+    <ng-container *ngIf="role === 'ROLE_ADMIN'; else checkSellerOrUser">
+      <a routerLink="/admin/users" routerLinkActive="active-link">Kullanıcılar</a>
+      <a routerLink="/admin/products" routerLinkActive="active-link">Ürün Yönetimi</a>
+      <a routerLink="/admin/orders" routerLinkActive="active-link">Tüm Siparişler</a>
+      <a [routerLink]="profileLink" routerLinkActive="active-link">{{ username }}</a>
+    </ng-container>
+
+    <!-- Seller kontrolü veya user fallback -->
+    <ng-template #checkSellerOrUser>
+      <ng-container *ngIf="role === 'ROLE_SELLER'; else userLinks">
+        <!-- <a routerLink="/seller/product-create" routerLinkActive="active-link">Ürün Ekle</a> -->
+        <a routerLink="/seller/orders" routerLinkActive="active-link">Siparişler</a>
+        <a routerLink="/seller/my-products" routerLinkActive="active-link">Ürünlerim</a>
+        <!-- Seller orders linki -->
+        <a [routerLink]="profileLink" routerLinkActive="active-link">{{ username }}</a>
+      </ng-container>
+
+      <ng-template #userLinks>
+        <a routerLink="/user/products" routerLinkActive="active-link">Ürünler</a>
+        <a routerLink="/user/cart" routerLinkActive="active-link">Sepet</a>
+        <a routerLink="/user/orders" routerLinkActive="active-link">Siparişlerim</a>
+        <a routerLink="/user/checkout" routerLinkActive="active-link">Sepeti Onayla</a>
+        <a [routerLink]="profileLink" routerLinkActive="active-link">{{ username }}</a>
+      </ng-template>
+    </ng-template>
+
+    <a (click)="logout()">Çıkış</a>
+  </div>
+
+  <ng-template #guestLinks>
+    <a routerLink="/auth/login" routerLinkActive="active-link">Giriş</a>
+    <a routerLink="/auth/register" routerLinkActive="active-link">Kayıt</a>
+  </ng-template>
+</nav>

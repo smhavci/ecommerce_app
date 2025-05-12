@@ -1,0 +1,24 @@
+<div class="login-container">
+  <app-alert *ngIf="alertMessage" [message]="alertMessage" [type]="alertType"></app-alert>
+  <h2>Giriş Yap</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Kullanıcı Adı:</label>
+      <input id="username" type="text" formControlName="username" />
+      <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+        Zorunlu alan
+      </div>
+    </div>
+
+    <div>
+      <label for="password">Şifre:</label>
+      <input id="password" type="password" formControlName="password" />
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        Zorunlu alan
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Giriş Yap</button>
+  </form>
+</div>

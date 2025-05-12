@@ -1,0 +1,32 @@
+<div class="register-container">
+  <h2>Kayıt Ol</h2>
+  <app-alert *ngIf="alertMessage" [message]="alertMessage" [type]="alertType"></app-alert>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <label for="username">Kullanıcı Adı:</label>
+    <input id="username" formControlName="username" type="text" />
+
+    <label for="email">E-posta:</label>
+    <input id="email" formControlName="email" type="email" />
+
+    <label for="password">Şifre:</label>
+    <input id="password" formControlName="password" type="password" />
+
+    <label for="role">Rol:</label>
+    <select id="role" formControlName="role">
+      <option value="ROLE_USER">Müşteri</option>
+      <option value="ROLE_SELLER">Satıcı</option>
+    </select>
+
+    <!-- 🔥 Mağaza Adı sadece Satıcı seçilirse görünür -->
+    <div *ngIf="registerForm.get('role')?.value === 'ROLE_SELLER'">
+      <label for="storeName">Mağaza Adı:</label>
+      <input id="storeName" formControlName="storeName" type="text" placeholder="Örn: Semih'in Butiği" />
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Kayıt Ol</button>
+  </form>
+
+  <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+</div>

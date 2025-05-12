@@ -1,0 +1,38 @@
+<div class="orders-container">
+  <h2 class="page-title">Satıcı Sipariş Yönetimi</h2>
+
+  <!-- Siparişler listeleniyor -->
+  <div *ngIf="orders.length > 0; else noOrders">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Sipariş ID</th>
+          <th>Kullanıcı</th>
+          <th>Tarih</th>
+          <th>Durum</th>
+          <th>Toplam</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{ order.id }}</td>
+          <td>{{ order.user.username }}</td>
+          <td>{{ order.orderDate | date: 'short' }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.totalAmount | currency: 'TRY' }}</td>
+          <td>
+            <button class="cancel-btn" (click)="cancelOrder(order.id)">İptal Et</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Sipariş yoksa gösterilecek alan -->
+  <ng-template #noOrders>
+    <div class="no-orders">
+      <p>Henüz sipariş bulunmamaktadır.</p>
+    </div>
+  </ng-template>
+</div>

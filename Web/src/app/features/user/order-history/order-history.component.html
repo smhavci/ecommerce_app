@@ -1,0 +1,19 @@
+<div class="order-history-container">
+  <h2>Geçmiş Siparişlerim</h2>
+
+  <div *ngIf="orders.length === 0" class="no-orders">
+    Henüz siparişiniz yok.
+  </div>
+
+  <div *ngFor="let order of orders" class="order-card">
+    <div class="order-meta">
+      <span><strong>Sipariş No:</strong> #{{ order.id }}</span>
+      <span><strong>Tarih:</strong> {{ order.orderDate | date:'short' }}</span>
+    </div>
+
+    <div class="order-meta">
+      <span><strong>Tutar:</strong> {{ order.totalAmount | currency:'TRY' }}</span>
+      <span class="order-status">{{ order.status }}</span>
+    </div>
+  </div>
+</div>

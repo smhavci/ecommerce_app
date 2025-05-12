@@ -1,0 +1,63 @@
+<div class="admin-container">
+  <h2 class="page-title">Ürün Yönetimi</h2>
+
+  <!-- Ürün Formu -->
+  <form [formGroup]="productForm" (ngSubmit)="submit()" class="product-form">
+    <input type="text" formControlName="name" placeholder="Ürün Adı" />
+    <input type="text" formControlName="description" placeholder="Açıklama" />
+    <input type="number" formControlName="price" placeholder="Fiyat" />
+    <input type="number" formControlName="stock" placeholder="Stok" />
+
+    <!-- Kategori Seçimi -->
+    <select formControlName="category" class="category-select">
+      <option value="">Kategori Seçin</option>
+      <option *ngFor="let cat of categories" [ngValue]="cat">
+        {{ cat.name }}
+      </option>
+    </select>
+
+    <button type="submit" [disabled]="productForm.invalid">
+      {{ editMode ? 'Güncelle' : 'Ekle' }}
+    </button>
+
+    <button type="button" class="btn-cancel" *ngIf="editMode" (click)="resetForm()">
+      İptal
+    </button>
+  </form>
+
+  <!-- Yükleniyor / Hata -->
+  <div *ngIf="isLoading" class="loading">Ürünler yükleniyor...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Ürün Tablosu -->
+  <table *ngIf="!isLoading && products.length" class="product-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>İsim</th>
+        <th>Fiyat</th>
+        <th>Stok</th>
+        <th>Kategori</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price | currency:'TRY' }}</td>
+        <td>{{ product.stock }}</td>
+        <td>{{ product.category?.name || 'Kategori Yok' }}</td>
+        <td>
+          <button class="btn-edit" (click)="editProduct(product)">Düzenle</button>
+          <button class="btn-delete" (click)="deleteProduct(product.id)">Sil</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Boş Durum -->
+  <div *ngIf="!isLoading && !products.length" class="empty-state">
+    Henüz ürün yok.
+  </div>
+</div>
